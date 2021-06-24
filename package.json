@@ -1,0 +1,75 @@
+{
+  "name": "finance-api",
+  "version": "1.0.0",
+  "description": "Money lending backend",
+  "main": "index.js",
+  "scripts": {
+    "start": "env-cmd -f ./config/dev.env  nodemon --watch src --exec babel-node src/cluster.js",
+    "dev": "env-cmd -f ./config/dev.env  nodemon src/cluster.js",
+    "test": "env-cmd -f ./config/test.env  nyc mocha",
+    "lint": "eslint . --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SenteSol/finance-api.git"
+  },
+  "author": "Paul Kayongo",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/polyfill": "^7.6.0",
+    "@hapi/joi": "^15.1.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "celebrate": "^12.0.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "googleapis": "^49.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.14",
+    "mongodb": "^3.2.3",
+    "mongoose": "^5.5.1",
+    "mongoose-slug-generator": "^1.0.4",
+    "mongoose-type-url": "^1.0.6"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.6.2",
+    "@babel/core": "^7.6.2",
+    "@babel/node": "^7.6.2",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
+    "@babel/plugin-transform-async-to-generator": "^7.5.0",
+    "@babel/plugin-transform-object-assign": "^7.2.0",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/preset-env": "^7.6.2",
+    "@babel/runtime": "^7.6.2",
+    "babel-eslint": "^10.1.0",
+    "chai": "^4.3.4",
+    "coveralls": "^3.0.4",
+    "env-cmd": "^9.0.3",
+    "eslint": "^6.8.0",
+    "eslint-config-blueimp": "^1.9.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-babel": "^5.3.0",
+    "eslint-plugin-jsdoc": "^23.0.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "husky": "^4.3.7",
+    "jest": "^24.8.0",
+    "mocha": "^6.2.0",
+    "mocha-lcov-reporter": "^1.3.0",
+    "nodemon": "^1.18.11",
+    "nyc": "^15.1.0",
+    "prettier": "^1.17.0",
+    "supertest": "^4.0.2",
+    "yarn-audit-fix": "^6.3.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn run lint"
+    }
+  },
+  "bugs": {
+    "url": "https://github.com/SenteSol/finance-api/issues"
+  },
+  "homepage": "https://github.com/SenteSol/finance-api#readme"
+}
