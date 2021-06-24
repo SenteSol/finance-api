@@ -102,3 +102,16 @@ dist
 
 # TernJS port file
 .tern-port
+
+# IDE settings
+.idea
+
+
+
+# testing
+/coverage
+
+# misc
+yarn.lock
+yarn-error.log
+package-lock.json

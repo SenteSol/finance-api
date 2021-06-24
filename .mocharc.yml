@@ -1,0 +1,4 @@
+spec: 'src/tests/**/*.js'
+timeout: 20000
+exit: true
+require: '@babel/register'
