@@ -20,4 +20,15 @@ router.post(
     UserController.addUser
 );
 
+router.post(
+    '/login',
+    celebrate({
+        [Segments.BODY]: Joi.object().keys({
+            email: Joi.string().required(),
+            password: Joi.string().required(),
+        }),
+    }),
+    UserController.loginUser
+);
+
 export default router;

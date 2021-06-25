@@ -4,7 +4,6 @@ import app from '../index';
 
 const env = process.env;
 
-export const MongoClient = require('mongodb').MongoClient;
 export const mongodbURI = `${env.MONGODB_URL}`;
 
 const version = '/';

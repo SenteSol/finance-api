@@ -13,6 +13,7 @@
       "src/tests/**",
       "src/interfaces",
       "src/tests/",
+      "src/cluster.js",
       "docs/**"
   ],
   "sourceMap": true,
