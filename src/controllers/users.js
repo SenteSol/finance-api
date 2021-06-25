@@ -1,3 +1,5 @@
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
 import User from '../models/Users';
 
 class UserController {
@@ -17,7 +19,7 @@ class UserController {
             });
     }
 
-    static addUser(req, res) {
+    static async addUser(req, res) {
         const {
             firstName,
             lastName,
@@ -31,18 +33,67 @@ class UserController {
                 message: 'Password and Confirm Password should be equal',
             });
         }
+        const user = await User.findOne({ email });
+        if (user) {
+            return res.status(400).json({ email: 'Email already exists' });
+        }
         const newUser = new User({
             firstName,
             lastName,
             email,
             password,
         });
-        newUser
-            .save()
-            .then(user => res.status(201).json(user))
-            .catch(err => {
-                console.log('Could not add a  user', err);
+        bcrypt.genSalt(8, (err, salt) => {
+            bcrypt.hash(newUser.password, salt, (err, hash) => {
+                if (err) throw err;
+                newUser.password = hash;
+                newUser
+                    .save()
+                    .then(user =>
+                        res.status(201).json({
+                            user,
+                            message: 'You have successfully registered a user',
+                        })
+                    )
+                    .catch(err => console.log(err));
             });
+        });
+    }
+
+    static async loginUser(req, res) {
+        const keys = process.env;
+        const { email, password } = req.body;
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ message: 'User not found' });
+        }
+
+        bcrypt.compare(password, user.password).then(isMatch => {
+            if (isMatch) {
+                // User Matched
+
+                const payload = {
+                    id: user.id,
+                    username: user.username,
+                    email: user.email,
+                }; // Create JWT Payload
+
+                // Sign Token
+                jwt.sign(
+                    payload,
+                    keys.JWT_SECRET,
+                    { expiresIn: 3600 },
+                    (err, token) => {
+                        res.status(201).json({
+                            success: true,
+                            token: 'Bearer ' + token,
+                        });
+                    }
+                );
+            } else {
+                return res.status(400).json({ error: 'Incorrect Password' });
+            }
+        });
     }
 }
 
