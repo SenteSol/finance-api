@@ -3,20 +3,14 @@ import bcrypt from 'bcryptjs';
 import User from '../models/Users';
 
 class UserController {
-    static getUsers(req, res) {
-        User.find()
-            .sort({ createdAt: -1 })
-            .then(users => {
-                if (users.length === 0) {
-                    return res.status(200).json({
-                        message: 'There are no users in the database',
-                    });
-                }
-                res.json(users);
-            })
-            .catch(err => {
-                console.log('Could not retrieve users', err);
+    static async getUsers(req, res) {
+        const users = await User.find().sort({ createdAt: -1 });
+        if (users.length === 0) {
+            return res.status(200).json({
+                message: 'There are no users in the database',
             });
+        }
+        res.json(users);
     }
 
     static async addUser(req, res) {
