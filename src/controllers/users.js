@@ -3,20 +3,14 @@ import bcrypt from 'bcryptjs';
 import User from '../models/Users';
 
 class UserController {
-    static getUsers(req, res) {
-        User.find()
-            .sort({ createdAt: -1 })
-            .then(users => {
-                if (users.length === 0) {
-                    return res.status(200).json({
-                        message: 'There are no users in the database',
-                    });
-                }
-                res.json(users);
-            })
-            .catch(err => {
-                console.log('Could not retrieve users', err);
+    static async getUsers(req, res) {
+        const users = await User.find().sort({ createdAt: -1 });
+        if (users.length === 0) {
+            return res.status(200).json({
+                message: 'There are no users in the database',
             });
+        }
+        res.json(users);
     }
 
     static async addUser(req, res) {
@@ -27,6 +21,7 @@ class UserController {
             password,
             confirmPassword,
         } = req.body;
+        const keys = process.env;
 
         if (password !== confirmPassword) {
             return res.status(400).json({
@@ -49,12 +44,27 @@ class UserController {
                 newUser.password = hash;
                 newUser
                     .save()
-                    .then(user =>
-                        res.status(201).json({
-                            user,
-                            message: 'You have successfully registered a user',
-                        })
-                    )
+                    .then(user => {
+                        const payload = {
+                            firstName: user.firstName,
+                            lastName: user.lastName,
+                            email: user.email,
+                        };
+                        jwt.sign(
+                            payload,
+                            keys.JWT_SECRET,
+                            { expiresIn: 3600 },
+                            (err, token) => {
+                                res.status(201).json({
+                                    user,
+                                    success: true,
+                                    token: 'Bearer ' + token,
+                                    message:
+                                        'You have successfully registered a user',
+                                });
+                            }
+                        );
+                    })
                     .catch(err => console.log(err));
             });
         });
@@ -73,8 +83,8 @@ class UserController {
                 // User Matched
 
                 const payload = {
-                    id: user.id,
-                    username: user.username,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
                     email: user.email,
                 }; // Create JWT Payload
 
