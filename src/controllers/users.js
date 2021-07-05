@@ -21,6 +21,7 @@ class UserController {
             password,
             confirmPassword,
         } = req.body;
+        const keys = process.env;
 
         if (password !== confirmPassword) {
             return res.status(400).json({
@@ -43,12 +44,27 @@ class UserController {
                 newUser.password = hash;
                 newUser
                     .save()
-                    .then(user =>
-                        res.status(201).json({
-                            user,
-                            message: 'You have successfully registered a user',
-                        })
-                    )
+                    .then(user => {
+                        const payload = {
+                            firstName: user.firstName,
+                            lastName: user.lastName,
+                            email: user.email,
+                        };
+                        jwt.sign(
+                            payload,
+                            keys.JWT_SECRET,
+                            { expiresIn: 3600 },
+                            (err, token) => {
+                                res.status(201).json({
+                                    user,
+                                    success: true,
+                                    token: 'Bearer ' + token,
+                                    message:
+                                        'You have successfully registered a user',
+                                });
+                            }
+                        );
+                    })
                     .catch(err => console.log(err));
             });
         });
