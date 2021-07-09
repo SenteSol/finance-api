@@ -1,4 +1,5 @@
 export const user1 = {
+    userId:'CTNBaLucS',
     firstName: 'paul',
     lastName: 'kayongo',
     email: 'nserekopaul@gmail.com',

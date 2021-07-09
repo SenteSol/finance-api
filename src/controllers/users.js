@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import User from '../models/Users';
+import shortid from 'shortid';
 
 class UserController {
     static async getUsers(req, res) {
@@ -32,7 +33,9 @@ class UserController {
         if (user) {
             return res.status(400).json({ email: 'Email already exists' });
         }
+        const userId = shortid.generate();
         const newUser = new User({
+            userId,
             firstName,
             lastName,
             email,
@@ -92,7 +95,7 @@ class UserController {
                 jwt.sign(
                     payload,
                     keys.JWT_SECRET,
-                    { expiresIn: 3600 },
+                    { expiresIn: '7d' },
                     (err, token) => {
                         res.status(201).json({
                             success: true,
