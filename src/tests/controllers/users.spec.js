@@ -12,12 +12,13 @@ describe('Test the users feature', function() {
     })
 
     beforeEach(function(){
-        return User.remove({})
+        return User.deleteMany({})
     })
 
     beforeEach(function() {
-        const {firstName, lastName, email, password} = user1
+        const {userId, firstName, lastName, email, password} = user1
         const newUser = new User({
+            userId,
             firstName,
             lastName,
             email,
