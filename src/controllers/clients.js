@@ -24,6 +24,21 @@ class ClientController {
         res.json(client);
     }
 
+    static async getClientByManager(req, res) {
+        const decodedData = await decodeToken(req);
+        const fullName = decodedData.firstName + ' ' + decodedData.lastName;
+        const managerEmail = decodedData.email;
+        const clients = await Clients.find({ managerEmail }).sort({
+            createdAt: -1,
+        });
+        if (clients.length === 0) {
+            return res.status(200).json({
+                message: `The manager: ${fullName} does not have any clients`,
+            });
+        }
+        res.json(clients);
+    }
+
     static async addClient(req, res) {
         const decodedData = await decodeToken(req);
         const managerEmail = decodedData.email;

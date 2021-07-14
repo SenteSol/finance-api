@@ -58,6 +58,10 @@ describe('Test the users feature', function() {
         const response = await BaseTest.get(`client/${id}`).set('Authorization', `${access_token}`).send({});
         expect(response.status).to.equal(200);
     });
+    it('Should get all clients of a manager', async () => {
+        const response = await BaseTest.get(`client/manager/email`).set('Authorization', `${access_token}`).send({});
+        expect(response.status).to.equal(200);
+    });
     it('Should return an error if the id does not correspond with a client', async () => {
         const response = await BaseTest.get(`client/7689`).set('Authorization', `${access_token}`).send({});
         expect(response.status).to.equal(400);

@@ -17,6 +17,12 @@ router.get(
     ClientController.getClient
 );
 
+router.get(
+    '/manager/email',
+    passport.authenticate('jwt', { session: false }, null),
+    ClientController.getClientByManager
+);
+
 router.post(
     '/',
     passport.authenticate('jwt', { session: false }, null),
