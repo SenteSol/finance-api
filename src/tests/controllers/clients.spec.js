@@ -8,7 +8,7 @@ import { user1, user3 } from '../__mocks__/users';
 import {client1, client2} from "../__mocks__/clients";
 const mongoose = require('mongoose');//tell mongoose to use es6 implementation of promises
 
-describe('Test the users feature', function() {
+describe('Test the clients feature', function() {
     let access_token;
     let secondClient;
     let id;
@@ -56,6 +56,10 @@ describe('Test the users feature', function() {
     });
     it('Should get a client by id', async () => {
         const response = await BaseTest.get(`client/${id}`).set('Authorization', `${access_token}`).send({});
+        expect(response.status).to.equal(200);
+    });
+    it('Should get all clients of a manager', async () => {
+        const response = await BaseTest.get(`client/manager/email`).set('Authorization', `${access_token}`).send({});
         expect(response.status).to.equal(200);
     });
     it('Should return an error if the id does not correspond with a client', async () => {

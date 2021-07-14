@@ -24,6 +24,15 @@ class ClientController {
         res.json(client);
     }
 
+    static async getClientByManager(req, res) {
+        const decodedData = await decodeToken(req);
+        const managerEmail = decodedData.email;
+        const clients = await Clients.find({ managerEmail }).sort({
+            createdAt: -1,
+        });
+        res.json(clients);
+    }
+
     static async addClient(req, res) {
         const decodedData = await decodeToken(req);
         const managerEmail = decodedData.email;

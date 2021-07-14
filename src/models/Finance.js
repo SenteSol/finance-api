@@ -3,11 +3,15 @@ const Schema = mongoose.Schema;
 
 //Create Schema
 const FinanceSchema = new Schema({
-    clientId: {
+    loanId: {
         type: String,
         required: true,
     },
     client: {
+        type: String,
+        required: true,
+    },
+    managerEmail: {
         type: String,
         required: true,
     },
@@ -34,6 +38,10 @@ const FinanceSchema = new Schema({
     totalOwed: {
         type: String,
         required: true,
+    },
+    comment: {
+        type: String,
+        required: false,
     },
 });
 
