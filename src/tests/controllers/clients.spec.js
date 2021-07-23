@@ -8,7 +8,7 @@ import { user1, user3 } from '../__mocks__/users';
 import {client1, client2} from "../__mocks__/clients";
 const mongoose = require('mongoose');//tell mongoose to use es6 implementation of promises
 
-describe('Test the users feature', function() {
+describe('Test the clients feature', function() {
     let access_token;
     let secondClient;
     let id;

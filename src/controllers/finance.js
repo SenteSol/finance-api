@@ -6,6 +6,7 @@ import {
     calculateEarnings,
 } from '../utils/loans';
 import dayjs from 'dayjs';
+import { decodeToken } from '../utils/decode-token';
 
 class FinanceController {
     static async getAllLoans(req, res) {
@@ -15,6 +16,15 @@ class FinanceController {
                 message: 'There are no loans disbursed',
             });
         }
+        res.json(loans);
+    }
+
+    static async getLoansByManager(req, res) {
+        const decodedData = await decodeToken(req);
+        const managerEmail = decodedData.email;
+        const loans = await Finance.find({ managerEmail }).sort({
+            createdAt: -1,
+        });
         res.json(loans);
     }
 
@@ -30,8 +40,17 @@ class FinanceController {
     }
 
     static async addLoan(req, res) {
-        const { client, amount, rate, dateDisbursed, currency } = req.body;
-        const clientId = shortid.generate();
+        const decodedData = await decodeToken(req);
+        const managerEmail = decodedData.email;
+        const {
+            client,
+            amount,
+            rate,
+            dateDisbursed,
+            currency,
+            comment,
+        } = req.body;
+        const loanId = shortid.generate();
         const loanAmount = await getCurrencyPrice(currency, amount);
         const interest = rate.toString() + '%';
         const isBefore = dayjs(dateDisbursed).isBefore(dayjs(new Date()));
@@ -51,14 +70,16 @@ class FinanceController {
         const amountPayable = await getCurrencyPrice(currency, totalEarned);
 
         const newLoan = new Finance({
-            clientId,
+            loanId,
             client,
+            managerEmail,
             amount: loanAmount,
             rate: interest,
             dateDisbursed,
             months: getMonthsDifference,
             interestAmount: totalInterest,
             totalOwed: amountPayable,
+            comment,
         });
 
         const loan = await newLoan.save();
@@ -69,9 +90,16 @@ class FinanceController {
     }
 
     static async updateLoan(req, res) {
-        const { client, amount, rate, dateDisbursed, currency } = req.body;
+        const {
+            client,
+            amount,
+            rate,
+            dateDisbursed,
+            currency,
+            comment,
+        } = req.body;
         const { id } = req.params;
-        const loan = await Finance.findOne({ clientId: id });
+        const loan = await Finance.findOne({ loanId: id });
         if (!loan) {
             return res.status(200).json({
                 message: 'There are no loans disbursed with this id',
@@ -118,6 +146,8 @@ class FinanceController {
                 months: getMonthsDifference ?? loan.months,
                 interestAmount: totalInterest ?? loan.interestAmount,
                 totalOwed: amountPayable ?? loan.totalOwed,
+                currency: currency ?? loan.currency,
+                comment: comment ?? loan.comment,
             };
             return res.status(201).json({ message: newLoan });
         }
@@ -125,7 +155,7 @@ class FinanceController {
 
     static async deleteLoan(req, res) {
         const { id } = req.params;
-        const loan = await Finance.findOne({ clientId: id });
+        const loan = await Finance.findOne({ loanId: id });
         if (!loan) {
             return res.status(200).json({
                 message: 'There are no loans disbursed with this id',
