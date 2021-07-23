@@ -3,11 +3,15 @@ const Schema = mongoose.Schema;
 
 //Create Schema
 const FinanceSchema = new Schema({
-    clientId: {
+    loanId: {
         type: String,
         required: true,
     },
     client: {
+        type: String,
+        required: true,
+    },
+    managerEmail: {
         type: String,
         required: true,
     },
@@ -37,10 +41,11 @@ const FinanceSchema = new Schema({
     },
     comment: {
         type: String,
-        required: true,
+        required: false,
     },
 });
 
 let Finance = mongoose.model('finance', FinanceSchema);
 
 export default Finance;
+
