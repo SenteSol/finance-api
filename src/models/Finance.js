@@ -48,3 +48,4 @@ const FinanceSchema = new Schema({
 let Finance = mongoose.model('finance', FinanceSchema);
 
 export default Finance;
+
