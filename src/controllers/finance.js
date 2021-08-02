@@ -30,7 +30,7 @@ class FinanceController {
 
     static async getLoan(req, res) {
         const { id } = req.params;
-        const loan = await Finance.findOne({ clientId: id });
+        const loan = await Finance.findOne({ loanId: id });
         if (!loan) {
             return res.status(200).json({
                 message: 'There are no loans disbursed with this id',
@@ -163,6 +163,19 @@ class FinanceController {
         }
         await loan.remove();
         return res.status(204).json({});
+    }
+
+    static async clearLoan(req, res) {
+        const { amount, dateCleared, comment } = req.body;
+        const { id } = req.params;
+        const loan = await Finance.findOne({ loanId: id });
+        if (!loan) {
+            return res.status(200).json({
+                message: 'There are no loans disbursed with this id',
+            });
+        }
+
+        return res.status(201).json({ amount, dateCleared, comment });
     }
 }
 

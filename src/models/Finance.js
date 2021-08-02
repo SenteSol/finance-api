@@ -27,6 +27,10 @@ const FinanceSchema = new Schema({
         type: String,
         required: true,
     },
+    dateCleared: {
+        type: String,
+        required: false,
+    },
     months: {
         type: Number,
         required: true,
@@ -48,4 +52,3 @@ const FinanceSchema = new Schema({
 let Finance = mongoose.model('finance', FinanceSchema);
 
 export default Finance;
-

@@ -51,6 +51,19 @@ router.put(
     FinanceController.updateLoan
 );
 
+router.put(
+    'dateCleared/:id',
+    passport.authenticate('jwt', { session: false }, null),
+    celebrate({
+        [Segments.BODY]: Joi.object().keys({
+            amount: Joi.number(),
+            dateCleared: Joi.string().required(),
+            comment: Joi.string(),
+        }),
+    }),
+    FinanceController.clearLoan
+);
+
 router.delete(
     '/:id',
     passport.authenticate('jwt', { session: false }, null),
