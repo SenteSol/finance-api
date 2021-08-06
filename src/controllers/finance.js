@@ -30,7 +30,7 @@ class FinanceController {
 
     static async getLoan(req, res) {
         const { id } = req.params;
-        const loan = await Finance.findOne({ clientId: id });
+        const loan = await Finance.findOne({ loanId: id });
         if (!loan) {
             return res.status(200).json({
                 message: 'There are no loans disbursed with this id',
@@ -74,6 +74,7 @@ class FinanceController {
             client,
             managerEmail,
             amount: loanAmount,
+            pendingPrinciple: loanAmount,
             rate: interest,
             dateDisbursed,
             months: getMonthsDifference,
@@ -141,6 +142,7 @@ class FinanceController {
             const newLoan = {
                 client: client ?? loan.client,
                 amount: loanAmount ?? loan.amount,
+                pendingPrinciple: loanAmount ?? loan.amount,
                 rate: interest ?? loan.rate,
                 dateDisbursed: dateDisbursed ?? loan.dateDisbursed,
                 months: getMonthsDifference ?? loan.months,
