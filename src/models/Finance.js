@@ -19,6 +19,10 @@ const FinanceSchema = new Schema({
         type: String,
         required: true,
     },
+    pendingPrinciple: {
+        type: String,
+        required: false,
+    },
     rate: {
         type: String,
         required: true,
@@ -26,6 +30,10 @@ const FinanceSchema = new Schema({
     dateDisbursed: {
         type: String,
         required: true,
+    },
+    dateCleared: {
+        type: String,
+        required: false,
     },
     months: {
         type: Number,
@@ -48,4 +56,3 @@ const FinanceSchema = new Schema({
 let Finance = mongoose.model('finance', FinanceSchema);
 
 export default Finance;
-

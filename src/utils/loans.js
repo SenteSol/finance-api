@@ -55,3 +55,37 @@ export const calculateEarnings = (months, amount, rate) => {
     const totalEarned = amount + interestEarned;
     return { interestEarned, totalEarned };
 };
+
+export const convertCurrencyToInteger = amount => {
+    if (amount.includes('UGX')) {
+        return parseInt(
+            amount
+                .replaceAll(',', '')
+                .replace('.', '')
+                .split('')
+                .slice(4, -2)
+                .join(''),
+            10
+        );
+    }
+    if (amount.includes('$')) {
+        return parseInt(
+            amount
+                .replace(',', '')
+                .replace('.', '')
+                .split('')
+                .slice(1, -2)
+                .join(''),
+            10
+        );
+    }
+    return parseInt(
+        amount
+            .replaceAll(',', '')
+            .replace('.', '')
+            .split('')
+            .slice(1, -2)
+            .join(''),
+        10
+    );
+};
