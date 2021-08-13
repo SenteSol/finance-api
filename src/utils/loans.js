@@ -46,12 +46,49 @@ export const calculateMonths = dateDisbursed => {
     const dt1 = calculateLoanMonth(dateDisbursed);
     const dt2 = calculateCurrentMonth();
     let diff = (dt2.getTime() - dt1.getTime()) / 1000;
-    diff /= 60 * 60 * 24 * 7 * 4;
-    return Math.abs(Math.round(diff));
+    const months = Math.round((diff /= 60 * 60 * 24 * 7 * 4));
+    if (months === 0) {
+        return Math.abs(months);
+    }
+    return Math.abs(months) - 1;
 };
 
 export const calculateEarnings = (months, amount, rate) => {
     const interestEarned = months * (amount * (rate / 100));
     const totalEarned = amount + interestEarned;
     return { interestEarned, totalEarned };
+};
+
+export const convertCurrencyToInteger = amount => {
+    if (amount.includes('UGX')) {
+        return parseInt(
+            amount
+                .replaceAll(',', '')
+                .replace('.', '')
+                .split('')
+                .slice(4, -2)
+                .join(''),
+            10
+        );
+    }
+    if (amount.includes('$')) {
+        return parseInt(
+            amount
+                .replace(',', '')
+                .replace('.', '')
+                .split('')
+                .slice(1, -2)
+                .join(''),
+            10
+        );
+    }
+    return parseInt(
+        amount
+            .replaceAll(',', '')
+            .replace('.', '')
+            .split('')
+            .slice(1, -2)
+            .join(''),
+        10
+    );
 };
