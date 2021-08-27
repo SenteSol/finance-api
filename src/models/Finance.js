@@ -51,6 +51,10 @@ const FinanceSchema = new Schema({
         type: String,
         required: false,
     },
+    dateUpdated: {
+        type: String,
+        required: true,
+    },
 });
 
 let Finance = mongoose.model('finance', FinanceSchema);

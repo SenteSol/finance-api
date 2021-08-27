@@ -2,6 +2,7 @@ import Payments from '../models/Payments';
 import shortid from 'shortid';
 import Finance from '../models/Finance';
 import { convertCurrencyToInteger, getCurrencyPrice } from '../utils/loans';
+import dayjs from 'dayjs';
 
 class PaymentsController {
     static async getAllPayments(req, res) {
@@ -72,6 +73,7 @@ class PaymentsController {
             pendingPrinciple:
                 amountPending < loanAmount ? convertedAmount : loan.amount,
             comment: amountPending === 0 ? 'Loan closed' : loan.comment,
+            dateUpdated: dayjs().format('YYYY-MM-DD'),
         };
 
         await Object.assign(loan, newLoanAmount);

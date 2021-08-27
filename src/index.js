@@ -6,15 +6,17 @@ import './db/mongoose';
 import { errors } from 'celebrate';
 const cors = require('cors');
 import router from './routes';
+import { runCron } from './utils/cron-job';
 
 const app = express();
 
 app.use(cors());
-const port = process.env.PORT;
+const port = process.env.PORT || 8000;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(passport.initialize());
 require('./utils/passport')(passport);
+runCron();
 
 app.use(router);
 

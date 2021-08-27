@@ -92,3 +92,25 @@ export const convertCurrencyToInteger = amount => {
         10
     );
 };
+
+export const addCurrencySymbol = (amount, currency) => {
+    if (amount.includes('UGX')) {
+        return Dinero({
+            amount: currency,
+            currency: 'UGX',
+            precision: 0,
+        }).toFormat();
+    }
+    if (amount.includes('$')) {
+        return Dinero({
+            amount: currency,
+            currency: 'USD',
+            precision: 0,
+        }).toFormat();
+    }
+    return Dinero({
+        amount: currency,
+        currency: 'EUR',
+        precision: 0,
+    }).toFormat();
+};
