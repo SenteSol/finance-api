@@ -87,6 +87,7 @@ class FinanceController {
             interestAmount: totalInterest,
             totalOwed: amountPayable,
             comment,
+            dateUpdated: dayjs().format('YYYY-MM-DD'),
         });
 
         const loan = await newLoan.save();
@@ -156,6 +157,7 @@ class FinanceController {
                 totalOwed: amountPayable ?? loan.totalOwed,
                 currency: currency ?? loan.currency,
                 comment: comment ?? loan.comment,
+                dateUpdated: dayjs().format('YYYY-MM-DD'),
             };
             return res.status(201).json({ message: newLoan });
         }
