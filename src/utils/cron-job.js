@@ -24,7 +24,6 @@ const checkLoans = loans =>
         const lastDate = dayjs(dateUpdated);
         const today = dayjs(dayjs().format('YYYY-MM-DD'));
         const dateDifference = today.diff(lastDate, 'day');
-        console.log(typeof dateDifference, 'the dayjs date diff ========>');
 
         if (dateDifference === 30 && !dateCleared) {
             const currency = convertCurrencyToInteger(
