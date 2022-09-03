@@ -1,5 +1,5 @@
 {
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "plugins": [
     "babel",
     "prettier"
@@ -11,6 +11,7 @@
   },
   "parserOptions": {
     "ecmaVersion": 2020,
+    "requireConfigFile": false,
     "es6": true,
     "sourceType": "module"
   },

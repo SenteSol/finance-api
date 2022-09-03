@@ -6,7 +6,7 @@ const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = keys.JWT_SECRET;
 
-export const applyPassportStrategy = passport => {
+export const applyPassportStrategy = (passport) => {
     passport.use(
         new Strategy(opts, (jwt_payload, done) => {
             const email = jwt_payload.email;

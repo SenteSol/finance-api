@@ -25,7 +25,7 @@ export const getCurrencyPrice = (storeKey, amount) => {
     }
 };
 
-const calculateLoanMonth = dateDisbursed => {
+const calculateLoanMonth = (dateDisbursed) => {
     const cleaned = dateDisbursed.split('-');
     const loanYear = parseInt(cleaned[0]);
     const loanMonth = parseInt(cleaned[1]);
@@ -42,7 +42,7 @@ const calculateCurrentMonth = () => {
     return new Date(loanYear, loanMonth, loanDate);
 };
 
-export const calculateMonths = dateDisbursed => {
+export const calculateMonths = (dateDisbursed) => {
     const dt1 = calculateLoanMonth(dateDisbursed);
     const dt2 = calculateCurrentMonth();
     let diff = (dt2.getTime() - dt1.getTime()) / 1000;
@@ -59,7 +59,7 @@ export const calculateEarnings = (months, amount, rate) => {
     return { interestEarned, totalEarned };
 };
 
-export const convertCurrencyToInteger = amount => {
+export const convertCurrencyToInteger = (amount) => {
     if (amount.includes('UGX')) {
         return parseInt(
             amount

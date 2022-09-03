@@ -15,13 +15,8 @@ class UserController {
     }
 
     static async addUser(req, res) {
-        const {
-            firstName,
-            lastName,
-            email,
-            password,
-            confirmPassword,
-        } = req.body;
+        const { firstName, lastName, email, password, confirmPassword } =
+            req.body;
         const keys = process.env;
 
         if (password !== confirmPassword) {
@@ -47,7 +42,7 @@ class UserController {
                 newUser.password = hash;
                 newUser
                     .save()
-                    .then(user => {
+                    .then((user) => {
                         const payload = {
                             firstName: user.firstName,
                             lastName: user.lastName,
@@ -68,7 +63,7 @@ class UserController {
                             }
                         );
                     })
-                    .catch(err => console.log(err));
+                    .catch((err) => console.log(err));
             });
         });
     }
@@ -81,7 +76,7 @@ class UserController {
             return res.status(400).json({ message: 'User not found' });
         }
 
-        bcrypt.compare(password, user.password).then(isMatch => {
+        bcrypt.compare(password, user.password).then((isMatch) => {
             if (isMatch) {
                 // User Matched
 
