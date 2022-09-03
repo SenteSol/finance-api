@@ -1,26 +1,22 @@
-const JwtStrategy = require('passport-jwt').Strategy;
-const ExtractJwt = require('passport-jwt').ExtractJwt;
-const mongoose = require('mongoose');
-const User = mongoose.model('users');
+import { Strategy, ExtractJwt } from 'passport-jwt';
+import User from '../models/Users';
 const keys = process.env;
 
 const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = keys.JWT_SECRET;
 
-module.exports = passport => {
+export const applyPassportStrategy = passport => {
     passport.use(
-        new JwtStrategy(opts, (jwt_payload, done) => {
+        new Strategy(opts, (jwt_payload, done) => {
             const email = jwt_payload.email;
-            User.findOne({ email })
-                .then(user => {
-                    if (user) {
-                        return done(null, user);
-                    }
-                    return done(null, false);
-                })
-                // eslint-disable-next-line no-console
-                .catch(err => console.log(err));
+            User.findOne({ email }, (err, user) => {
+                if (err) return done(err, false);
+                if (user) {
+                    return done(null, user);
+                }
+                return done(null, false);
+            });
         })
     );
 };
