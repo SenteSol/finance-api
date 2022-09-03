@@ -4,7 +4,7 @@
   "description": "Money lending backend",
   "main": "index.js",
   "scripts": {
-    "start": "env-cmd -f ./config/dev.env  nodemon --watch src --exec babel-node src/cluster.js",
+    "start": "nodemon --watch src --exec babel-node src/cluster.js",
     "dev": "env-cmd -f ./config/dev.env  nodemon --watch src --exec babel-node src/cluster.js",
     "test": "env-cmd -f ./config/test.env  nyc mocha",
     "lint": "eslint . --fix",
