@@ -2,7 +2,7 @@ import '@babel/polyfill';
 import express from 'express';
 import bodyParser from 'body-parser';
 import passport from 'passport';
-import './db/mongoose';
+import connectionString from './db/mongoose';
 import { errors } from 'celebrate';
 const cors = require('cors');
 import router from './routes';
@@ -12,6 +12,7 @@ const app = express();
 
 app.use(cors());
 const port = process.env.PORT || 8000;
+connectionString();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(passport.initialize());
