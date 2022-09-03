@@ -1,11 +1,11 @@
 import dayjs from 'dayjs';
-
-const cron = require('node-cron');
+// const cron = require('node-cron');
+import cron from 'node-cron';
 import Finance from '../models/Finance';
 import { convertCurrencyToInteger, addCurrencySymbol } from './loans';
 
-const checkLoans = loans =>
-    loans.map(async loan => {
+const checkLoans = (loans) =>
+    loans.map(async (loan) => {
         const {
             loanId,
             pendingPrinciple,

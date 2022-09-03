@@ -42,14 +42,8 @@ class FinanceController {
     static async addLoan(req, res) {
         const decodedData = await decodeToken(req);
         const managerEmail = decodedData.email;
-        const {
-            client,
-            amount,
-            rate,
-            dateDisbursed,
-            currency,
-            comment,
-        } = req.body;
+        const { client, amount, rate, dateDisbursed, currency, comment } =
+            req.body;
         const loanId = shortid.generate();
         const loanAmount = await getCurrencyPrice(currency, amount);
         const interest = rate.toString() + '%';
@@ -98,14 +92,8 @@ class FinanceController {
     }
 
     static async updateLoan(req, res) {
-        const {
-            client,
-            amount,
-            rate,
-            dateDisbursed,
-            currency,
-            comment,
-        } = req.body;
+        const { client, amount, rate, dateDisbursed, currency, comment } =
+            req.body;
         const { id } = req.params;
         const loan = await Finance.findOne({ loanId: id });
         if (!loan) {
