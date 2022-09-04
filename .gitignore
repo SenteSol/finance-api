@@ -116,3 +116,5 @@ yarn-error.log
 package-lock.json
 .DS_Store
 src/.DS_Store
+/config/dev.env
+/config/test.env
