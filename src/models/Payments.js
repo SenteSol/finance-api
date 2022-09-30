@@ -7,6 +7,11 @@ const PaymentSchema = new Schema({
         type: String,
         required: true,
     },
+    loan: {
+        type: Schema.Types.ObjectId,
+        ref: 'finance',
+        required: false,
+    },
     paymentId: {
         type: String,
         required: true,
