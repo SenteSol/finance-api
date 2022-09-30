@@ -6,7 +6,12 @@ import dayjs from 'dayjs';
 
 class PaymentsController {
     static async getAllPayments(req, res) {
-        const payments = await Payments.find().sort({ createdAt: -1 });
+        const payments = await Payments.find()
+            .populate({
+                path: 'loan',
+                model: 'finance',
+            })
+            .sort({ createdAt: -1 });
         if (payments.length === 0) {
             return res.status(200).json({
                 message: 'There are no payments disbursed',
@@ -16,9 +21,14 @@ class PaymentsController {
     }
     static async getPaymentByLoanId(req, res) {
         const { loanId } = req.params;
-        const loanPayments = await Payments.find({ loanId }).sort({
-            createdAt: -1,
-        });
+        const loanPayments = await Payments.find({ loanId })
+            .populate({
+                path: 'loan',
+                model: 'finance',
+            })
+            .sort({
+                createdAt: -1,
+            });
         if (loanPayments.length === 0) {
             return res.status(200).json({
                 message: 'There are no payments for this loan',
