@@ -2,6 +2,7 @@ import Clients from '../models/Clients';
 import shortid from 'shortid';
 import { decodeToken } from '../utils/decode-token';
 
+//test pr
 class ClientController {
     static async getAllClients(req, res) {
         const clients = await Clients.find().sort({ createdAt: -1 });
